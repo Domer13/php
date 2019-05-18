@@ -1,17 +1,13 @@
 <?php
 
 use Slim\App;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use NewK\routes\Requests;
 
 return function (App $app) {
-    $container = $app->getContainer();
-
-    $app->get('/[{name}]', function (Request $request, Response $response, array $args) use ($container) {
-        // Sample log message
-        $container->get('logger')->info("Slim-Skeleton '/' route");
-
-        // Render index view
-        return $container->get('renderer')->render($response, 'index.phtml', $args);
+//    $container = $app->getContainer();
+    $app->group("/request", function (App $app) {
+        $app->post("", Requests::class . ":NewRequest");
+        $app->put("/{id}", Requests::class . ":UpdateRequest");
+        $app->get("", Requests::class . ":ListRequests");
     });
 };
